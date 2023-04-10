@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import rr.bookstore.domain.Book;
 import rr.bookstore.domain.BookRepository;
+
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -38,4 +40,9 @@ public String save(Book book) {
     return "redirect:booklist";
 }
 
+@RequestMapping(value="/delete/{id}", method=RequestMethod.GET)
+public String deleteBook(@PathVariable("id") Long bookId, Model model) {
+    bookRepository.deleteById(bookId);
+    return "redirect:../booklist";
+}
 }
