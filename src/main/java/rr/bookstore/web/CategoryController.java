@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.ui.Model;
 import rr.bookstore.domain.CategoryRepository;
 import rr.bookstore.domain.Category;
@@ -25,7 +25,11 @@ public class CategoryController {
         model.addAttribute("categories", categoryRepository.findAll());
 
         return "categorylist";
+
+        
     }
+       
+    
 
     @RequestMapping(value="/addcategory")
     public String addCategory(Model model) {
