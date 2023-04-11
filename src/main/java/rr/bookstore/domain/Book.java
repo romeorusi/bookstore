@@ -1,9 +1,13 @@
 package rr.bookstore.domain;
 
+import org.hibernate.annotations.ManyToAny;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Book {
@@ -17,22 +21,33 @@ public class Book {
     private double price;
     private String publicationYear;
 
+    @ManyToOne
+    @JoinColumn(name = "categoryId")
+    private Category category;
+
     
+   
     public Book() {}
 
-    public Book(String title, String author, String isbn, double price, String publicationYear) {
+    public Book(String title, String author, String isbn, double price, String publicationYear, Category category) {
         super();
         this.title = title;
         this.author = author;
         this.isbn = isbn;
         this.price = price;
         this.publicationYear = publicationYear;
+        this.category = category;
     }
 
 
 
+    public Category getCategory() {
+        return category;
+    }
 
-
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     public Long getId() {
         return id;
@@ -73,6 +88,14 @@ public class Book {
     
     @Override
     public String toString() {
+
+        if (this.category != null)
+
+            return "Book [id=" + id + ", title=" + title + ", author=" + author + ", isbn=" + isbn + ", price=" + price
+                    + ", publicationYear=" + publicationYear + ", category=" + this.getCategory() + "]";
+                    
+        else
+
         return "Book [id=" + id + ", title=" + title + ", author=" + author + ", isbn=" + isbn + ", price=" + price
                 + ", publicationYear=" + publicationYear + "]";
     }

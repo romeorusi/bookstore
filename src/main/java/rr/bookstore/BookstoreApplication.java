@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Bean;
 
 import rr.bookstore.domain.Book;
 import rr.bookstore.domain.BookRepository;
+import rr.bookstore.domain.Category;
+import rr.bookstore.domain.CategoryRepository;
 
 @SpringBootApplication
 public class BookstoreApplication {
@@ -20,14 +22,20 @@ public class BookstoreApplication {
 
 
 	@Bean
-		public CommandLineRunner demo(BookRepository bookRepository) {
+		public CommandLineRunner demo(BookRepository bookRepository, CategoryRepository categoryRepository) {
 			return (args) -> {
  		// Your code...add some demo data to db
-				Book s1 = new Book("The Lord of the Rings", "J.R.R. Tolkien", "123456789", 10.0, "1954");
-				Book s2 = new Book("Valorant player", "J Tolkien", "198765432", 20.0, "1924");
+		 categoryRepository.save(new Category("Horror"));
+		 categoryRepository.save(new Category("Drama"));
+		 categoryRepository.save(new Category("Action"));
+		 categoryRepository.save(new Category("Fantasy"));
+		 
+		 
 
-				bookRepository.save(s1);
-				bookRepository.save(s2);
+		 bookRepository.save(new Book("Romeo", "Aleks", "1999293", 30.0, "1929", categoryRepository.findByName("Horror").get(0)));
+		 bookRepository.save(new Book("Romeo", "Aleks", "1999293", 30.0, "1999", categoryRepository.findByName("Action").get(0)));
+
+				
 
 			};
 		}

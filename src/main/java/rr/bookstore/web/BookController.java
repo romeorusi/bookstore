@@ -6,14 +6,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import rr.bookstore.domain.Book;
-import rr.bookstore.domain.BookRepository;
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import rr.bookstore.domain.Book;
+import rr.bookstore.domain.BookRepository;
+import rr.bookstore.domain.CategoryRepository;
 
 
 @Controller
@@ -22,16 +21,25 @@ public class BookController {
 @Autowired
 private BookRepository bookRepository;
 
-//login
+@Autowired
+private CategoryRepository categoryRepository;
+
+//show books
 @RequestMapping(value={"/booklist"})
 public String bookList(Model model) {
+
     model.addAttribute ("books", bookRepository.findAll());
+    model.addAttribute("categories", categoryRepository.findAll());
+    
     return "booklist";    
 }
 //add
 @RequestMapping(value="/add")
 public String addBook(Model model) {
+
     model.addAttribute("book", new Book());
+    model.addAttribute("categories", categoryRepository.findAll());
+
     return "addbook";
 }
 //save
@@ -53,6 +61,7 @@ public String deleteBook(@PathVariable("id") Long bookId, Model model) {
 public String editBook(@PathVariable("id") Long bookId, Model model){
 
     model.addAttribute("book", bookRepository.findById(bookId));
+    model.addAttribute("categories", categoryRepository.findAll());
     return "editbook";
 
 }
